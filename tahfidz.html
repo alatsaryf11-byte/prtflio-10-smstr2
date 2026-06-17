@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fudhail Al Atsary | Santri & Web Developer</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'santri': { green: '#0d9255', gold: '#f0b429', dark: '#0a0a0a' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* PORTFOLIO OVERLAY */
+        .overlay{
+        position:absolute;
+        inset:0;
+        background:rgba(0,0,0,.7);
+        opacity:0;
+        transition:.4s;
+        display:flex;
+        flex-direction:column;
+        justify-content:flex-end;
+        padding:24px;
+        }
+        .group:hover .overlay{opacity:1}
+
+        .overlay span{
+        font-size:12px;
+        color:#f0b429;
+        margin-bottom:6px;
+        }
+        .overlay h3{
+        color:white;
+        font-size:20px;
+        font-weight:700;
+        margin-bottom:14px;
+        }
+        .overlay a{
+        width:max-content;
+        padding:8px 18px;
+        background:white;
+        color:black;
+        border-radius:999px;
+        font-weight:600;
+        transition:.3s;
+        }
+        .overlay a:hover{
+        background:#f0b429;
+        }
+ 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .font-arabic { font-family: 'Amiri', serif; }
+        
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+        
+        /* Custom cursor */
+        .cursor { width: 20px; height: 20px; border: 2px solid; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.1s, border-color 0.3s; }
+        .cursor-dot { width: 5px; height: 5px; background: currentColor; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; }
+        
+        /* Floating particles */
+        .particle { position: absolute; border-radius: 50%; pointer-events: none; animation: float 15s infinite ease-in-out; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 0.8; }
+        }
+        
+        /* Glowing text */
+        .glow-text { text-shadow: 0 0 40px currentColor; }
+        
+        /* Islamic geometric pattern */
+        .islamic-geo { 
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2310b981' stroke-width='0.5' opacity='0.1'%3E%3Cpath d='M0 0l40 40M40 0l40 40M0 40l40 40M40 40l40 40M40 0L0 40M80 0L40 40M40 40L0 80M80 40L40 80'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .dark .islamic-geo {
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23f0b429' stroke-width='0.5' opacity='0.1'%3E%3Cpath d='M0 0l40 40M40 0l40 40M0 40l40 40M40 40l40 40M40 0L0 40M80 0L40 40M40 40L0 80M80 40L40 80'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Hover underline effect */
+        .hover-line { position: relative; }
+        .hover-line::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: currentColor; transition: width 0.3s; }
+        .hover-line:hover::after { width: 100%; }
+        
+        /* Reveal animation */
+        .reveal { opacity: 0; transform: translateY(50px); }
+        .reveal.active { opacity: 1; transform: translateY(0); transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
+        
+        /* Typing cursor */
+        .typing-cursor { animation: blink 0.7s infinite; font-weight: 100; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    </style>
+</head>
+<body class="bg-white dark:bg-santri-dark text-gray-900 dark:text-white">
+
+    <!-- Custom Cursor -->
+    <div class="cursor border-santri-green dark:border-santri-gold hidden md:block"></div>
+    <div class="cursor-dot text-santri-green dark:text-santri-gold hidden md:block"></div>
+
+    <!-- Floating Particles Background -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-santri-dark/80 backdrop-blur-xl border-b border-gray-100 dark:border-white/5">
+        <div class="container mx-auto px-6 lg:px-12 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold text-santri-green dark:text-santri-gold">
+                .<span class="text-gray-400">فضيل</span>
+            </a>
+            <div class="hidden md:flex items-center gap-10">
+                <a href="index.html#home" class="text-sm font-medium hover-line">الرئيسية</a>
+                <a href="index.html#about" class="text-sm font-medium hover-line">نبذة</a>
+                <a href="index.html#skills" class="text-sm font-medium hover-line">المهارات</a>
+                <a href="index.html#portfolio" class="text-sm font-medium hover-line">المشاريع</a>
+                <a href="index.html#gallery" class="text-sm font-medium hover-line">المعرض</a>
+                <a href="index.html#contact" class="text-sm font-medium hover-line">اتصال</a>
+            </div>
+            <button id="themeToggle" class="w-12 h-12 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:scale-110 transition-transform">
+                <i class="fas fa-moon text-lg dark:hidden"></i>
+                <i class="fas fa-sun text-lg hidden dark:block text-santri-gold"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Nav -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-white/90 dark:bg-santri-dark/90 backdrop-blur-xl border-t border-gray-100 dark:border-white/5 z-50 grid grid-cols-6 py-3">
+        <a href="index.html#home" class="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400"><i class="fas fa-home text-lg mb-1"></i>الرئيسية</a>
+        <a href="index.html#about" class="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400"><i class="fas fa-user text-lg mb-1"></i>نبذة</a>
+        <a href="index.html#skills" class="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400"><i class="fas fa-star text-lg mb-1"></i>المهارات</a>
+        <a href="index.html#portfolio" class="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400"><i class="fas fa-briefcase text-lg mb-1"></i>المشاريع</a>
+        <a href="index.html#gallery" class="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400"><i class="fas fa-envelope text-lg mb-1"></i>المعرض</a>
+        <a href="index.html#contact" class="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400"><i class="fas fa-envelope text-lg mb-1"></i>اتصال</a>
+    </div>
+
+    <!-- PORTFOLIO -->
+<section id="portfolio" class="py-24 lg:py-32 bg-gray-50 dark:bg-gray-950">
+  <div class="container mx-auto px-6 lg:px-12">
+
+    <!-- Heading -->
+    <div class="relative mb-16">
+
+    <a href="index.html#portfolio"
+        class="absolute top-0 left-0 px-5 py-3 rounded-xl bg-santri-green text-white hover:opacity-90 transition">
+        <i class="fas fa-arrow-right"> </i>
+    العودة
+    </a>
+
+    <div class="text-center">
+        <span class="inline-block px-4 py-2 bg-santri-green/10 dark:bg-santri-gold/10
+            text-santri-green dark:text-santri-gold rounded-full text-sm font-bold mb-4">
+            المشاريع
+        </span>
+
+        <h2 class="text-4xl md:text-6xl font-bold">
+            مشاريع<span class="text-santri-green dark:text-santri-gold"> التحفيظ</span>
+        </h2>
+    </div>
+
+</div>
+
+    <!-- GRID -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+      <!-- ITEM -->
+      <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:-translate-y-2 transition-all duration-300">
+    <img src="img/tasmi.png" alt="مشروع التهجي" class="w-full h-52 object-cover transition duration-500 hover:scale-105">
+
+    <div class="p-5">
+        <h3 class="text-xl font-bold mb-2">مشروع القرآن</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+            تسميع الجزء الثلاثين في جلسة واحدة
+        </p>
+
+        <a href="tahajji.html"
+            class="inline-block px-4 py-2 bg-santri-green text-white rounded-lg hover:opacity-90 transition">
+            عرض المشروع
+        </a>
+    </div>
+</div>
+<div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:-translate-y-2 transition-all duration-300">
+    <img src="image/tahajji.png" alt="مشروع التهجي" class="w-full h-52 object-cover transition duration-500 hover:scale-105">
+
+    <div class="p-5">
+        <h3 class="text-xl font-bold mb-2">مشروع التهجي</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+            تسميع تهجي القران سورة الفاتحة
+        </p>
+
+        <a href="thttps://www.youtube.com/watch?v=RpBSkTK9zoA&t=2s"
+            class="inline-block px-4 py-2 bg-santri-green text-white rounded-lg hover:opacity-90 transition">
+            عرض المشروع
+        </a>
+    </div>
+</div>
+<div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:-translate-y-2 transition-all duration-300">
+    <img src="image/poster tahajji.png" alt="مشروع التهجي" class="w-full h-52 object-cover transition duration-500 hover:scale-105">
+
+    <div class="p-5">
+        <h3 class="text-xl font-bold mb-2">مشروع التهجي</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+            ملصق فوائد من كتاب القواعد السامرية
+        </p>
+
+        <a href="https://drive.google.com/drive/folders/1fh3SWSSpyrCoV9Ft0kGnsIsT2jTPrBSj"
+            class="inline-block px-4 py-2 bg-santri-green text-white rounded-lg hover:opacity-90 transition">
+            عرض المشروع
+        </a>
+    </div>
+</div>
+<div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:-translate-y-2 transition-all duration-300">
+    <img src="img/29.png" alt="مشروع التهجي" class="w-full h-52 object-cover transition duration-500 hover:scale-105">
+
+    <div class="p-5">
+        <h3 class="text-xl font-bold mb-2">مشروع القرآن</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+            تسميع الجزء التاسع والعشرين في جلسة واحدة
+        </p>
+
+        <a href="https://drive.google.com/file/d/19-RaMl-0tOcy29-5lycOiPoAzjmmcA80/view?usp=sharing"
+            class="inline-block px-4 py-2 bg-santri-green text-white rounded-lg hover:opacity-90 transition">
+            عرض المشروع
+        </a>
+    </div>
+</div>
+    </div>
+  </div>
+  
+</section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-950 py-16 pb-28 md:pb-16 border-t border-gray-200 dark:border-white/5">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-4xl md:text-5xl font-arabic text-santri-green dark:text-santri-gold mb-4 glow-text">جَزَاكُمُ اللّٰهُ خَيْرًا</p>
+            <p class="text-gray-500 dark:text-gray-400 mb-8">Jazakumullah Khairan — Semoga Allah membalas kebaikan kalian</p>
+            <p class="text-sm text-gray-400">© 2025 Fudhail Al Atsary. Crafted with ❤️ and ☕</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        }
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+
+        // Floating Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.width = Math.random() * 10 + 5 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.background = html.classList.contains('dark') ? '#f0b429' : '#10b981';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Reveal animations
+        gsap.utils.toArray('.reveal').forEach(elem => {
+            gsap.to(elem, {
+                scrollTrigger: { trigger: elem, start: "top 85%" },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        });
+    </script>
+</body>
+</html>
