@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fudhail Al Atsary | Santri & Web Developer</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -1286,6 +1287,29 @@ setTimeout(typeEffect, 1000);
 
 
     </script>
+    <script>
+    emailjs.init("KMOZkVwELkcZajohJ");
+
+    document
+        .getElementById("contact-form")
+        .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            emailjs.sendForm(
+                "service_r9pdjba",
+                "template_17u0nzo",
+                this
+            )
+            .then(() => {
+                alert("Email berhasil dikirim!");
+                this.reset();
+            })
+            .catch((error) => {
+                alert("Gagal mengirim email");
+                console.log(error);
+            });
+        });
+</script>
 </body>
 
 </html>
